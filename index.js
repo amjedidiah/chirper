@@ -102,9 +102,48 @@ const goals = (state = [], action) =>
 /**
  ** STORE CODE
  */
-const store = Redux.createStore(Redux.combineReducers({
-  todos, goals
-}));
+
+ /**
+  * Bitcoin checker Middleware
+  * @param {store} store - The redux store
+  * @returns {function} 
+  */
+const checker = (store) => (next) => (action) => {
+  if (
+    (action.type === "ADD_TODO" &&
+      action.todo.name.toLowerCase().includes("bitcoin")) ||
+    (action.type === "ADD_GOAL" &&
+      action.goal.name.toLowerCase().includes("bitcoin"))
+  )
+    return alert("This is a bad idea");
+
+  return next(action);
+};
+
+/**
+ * Logger middleware
+ * @param {store} store - The redux store
+ * @returns {function}
+ */
+const logger = (store) => (next) => (action) => {
+  
+  console.group(action.type);
+    console.log("The current state is", store.getState())
+    console.log("todo:", action.todo)
+    const result = next(action);
+    console.log("The new state is", store.getState())
+  console.groupEnd();
+
+  return result;
+};
+
+const store = Redux.createStore(
+  Redux.combineReducers({
+    todos,
+    goals,
+  }),
+  Redux.applyMiddleware(checker, logger)
+);
 
 store.subscribe(() => {
   const { goals, todos } = store.getState();
