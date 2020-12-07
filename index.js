@@ -47,7 +47,8 @@
  */
 
 /**
- *! LIBRARY CODE
+ * Definition for id
+ * @typedef {string} id - A goal or todo id
  */
 
 /**
@@ -103,11 +104,11 @@ const goals = (state = [], action) =>
  ** STORE CODE
  */
 
- /**
-  * Bitcoin checker Middleware
-  * @param {store} store - The redux store
-  * @returns {function} 
-  */
+/**
+ * Bitcoin checker Middleware
+ * @param {store} store - The redux store
+ * @returns {function}
+ */
 const checker = (store) => (next) => (action) => {
   if (
     (action.type === "ADD_TODO" &&
@@ -126,12 +127,11 @@ const checker = (store) => (next) => (action) => {
  * @returns {function}
  */
 const logger = (store) => (next) => (action) => {
-  
   console.group(action.type);
-    console.log("The current state is", store.getState())
-    console.log("todo:", action.todo)
-    const result = next(action);
-    console.log("The new state is", store.getState())
+  console.log("The current state:", store.getState());
+  console.log("The action:", action);
+  const result = next(action);
+  console.log("The new state:", store.getState());
   console.groupEnd();
 
   return result;
@@ -145,95 +145,9 @@ const store = Redux.createStore(
   Redux.applyMiddleware(checker, logger)
 );
 
-store.subscribe(() => {
-  const { goals, todos } = store.getState();
-
-  document.getElementById("goals").innerHTML = "";
-  document.getElementById("todos").innerHTML = "";
-
-  goals.forEach((goal) => addGoalOrTodoToDOM(goal, "goals"));
-  todos.forEach((todo) => addGoalOrTodoToDOM(todo, "todos"));
-});
-
-/**
- *! DOM CODE
- */
-
-/**
- * Definition for id
- * @typedef {string} id - A goal or todo id
- */
-
 /**
  * Generates Random ID
  * @returns {id}
  */
 const generateId = () =>
   Math.random().toString(36).substring(2) + new Date().getTime().toString(36);
-
-/**
- * UI function to add todo or goal
- * @param {string} inputID - The id of the input element
- */
-const addGoalOrTodo = (inputID) => {
-  const input = document.getElementById(inputID);
-  const name = input.value;
-  input.value = "";
-
-  const action =
-    inputID === "todo"
-      ? addTodoAction({
-          id: generateId(),
-          complete: false,
-          name,
-        })
-      : addGoalAction({
-          id: generateId(),
-          name,
-        });
-
-  return name && store.dispatch(action);
-};
-
-/**
- * Creates the delete button
- * @param {function} onClick - Function to call onClicking the delete button
- * @returns{Object}
- */
-const createRemoveButton = (onClick) => {
-  const removeBtn = document.createElement("button");
-  removeBtn.innerHTML = "x";
-  removeBtn.addEventListener("click", onClick);
-
-  return removeBtn;
-};
-
-/**
- * Add goal or todo to dom
- * @param {Object} object - Either goal or todo
- * @param {string} object.id - The id of the goal or todo
- * @param {string} object.name - The name of the goal or todo
- * @param {boolean} [object.completed] - Inform if todo is completed
- * @param {string} type - Specifies which state we are adding to the DOM
- */
-const addGoalOrTodoToDOM = (object, type) => {
-  const node = document.createElement("li");
-  const text = document.createTextNode(object.name);
-  const className = type === "todos" && object.complete ? `${type} done` : type;
-
-  const actionCreator =
-    type === "todos"
-      ? removeTodoAction(object.id)
-      : removeGoalAction(object.id);
-  const removeBtn = createRemoveButton(() => store.dispatch(actionCreator));
-
-  node.appendChild(text);
-  node.appendChild(removeBtn);
-  node.setAttribute("class", className);
-  node.addEventListener(
-    "click",
-    () => type === "todos" && store.dispatch(toggleTodoAction(object.id))
-  );
-
-  document.getElementById(type).appendChild(node);
-};
