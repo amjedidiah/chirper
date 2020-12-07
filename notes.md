@@ -36,6 +36,7 @@ Functions that create/return an action object
 - Returns the same results if the same arguments are passed in
 - Depends solely on the arguments passed into them: no getting anything from outside
 - Does not produce any side effects, such as API requests and I/O operations: no changing anything outside
+- Its argumnets are immutable
 
 Sample Reducer
 

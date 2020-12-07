@@ -49,56 +49,6 @@
 /**
  *! LIBRARY CODE
  */
-/**
- * The store should have 4 parts
- * 1. The state
- * 2. Get the state
- * 3. Listen for state changes
- * 4. Update the state
- * @param {function} reducer - Root Reducer function
- * @returns {store}
- */
-const createStore = (reducer) => {
-  // The State
-  let state;
-  /**
-   * Gets current state value: RETURNS THE STATE
-   * @returns {todo[] | goal[]} state - Store state
-   */
-  const getState = () => state;
-
-  // listeners: Array of all the functions to call whenever state changes
-  let listeners = [];
-
-  /**
-   *
-   * @callback unsubscribe
-   */
-  /**
-   * Updates listeners: LISTENS FOR CHANGES
-   * @param {function} listener
-   * @returns {unsubscribe} unsubscribe
-   */
-  const subscribe = (listener) => {
-    listeners.push(listener);
-
-    return () => {
-      listeners = listeners.filter((l) => l !== listener);
-    };
-  };
-
-  /**
-   * Update the store
-   * @param {action} action - Action chnaging the state
-   */
-  const dispatch = (action) => {
-    state = reducer(state, action);
-
-    listeners.forEach((l) => l());
-  };
-
-  return { dispatch, getState, subscribe };
-};
 
 /**
  *! APP CODE
@@ -150,20 +100,11 @@ const goals = (state = [], action) =>
   }[action.type] || state);
 
 /**
- ** Root Reducer
- * @param {appState} state - App state
- * @param {action} action - Action changing the state
- * @returns {appState} - Updated app state
- */
-const app = (state = {}, action) => ({
-  todos: todos(state.todos, action),
-  goals: goals(state.goals, action),
-});
-
-/**
  ** STORE CODE
  */
-const store = createStore(app);
+const store = Redux.createStore(Redux.combineReducers({
+  todos, goals
+}));
 
 store.subscribe(() => {
   const { goals, todos } = store.getState();
@@ -212,7 +153,7 @@ const addGoalOrTodo = (inputID) => {
           name,
         });
 
-  store.dispatch(action);
+  return name && store.dispatch(action);
 };
 
 /**
