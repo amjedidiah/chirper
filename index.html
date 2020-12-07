@@ -15,12 +15,22 @@
       </section>
     </main>
 
+    <!-- React -->
     <script src="https://unpkg.com/react@16.3.0-alpha.1/umd/react.development.js"></script>
+
+    <!-- ReactDOM -->
     <script src="https://unpkg.com/react-dom@16.3.0-alpha.1/umd/react-dom.development.js"></script>
+
+    <!-- Babel -->
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <!-- Redux -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
+
+    <!-- API  -->
+    <script src="https://tylermcginnis.com/goals-todos-api/index.js"></script>
+
     <script src="index.js"></script>
-    <!-- <script src="react.js"></script> -->
     <script type="text/babel">
       /**
        * Definition for TODO
@@ -35,6 +45,11 @@
        * @typedef {Object} goal
        * @property {string} id - goal ID
        * @property {string} name - goal name
+       */
+
+      /**
+       * Definition for id
+       * @typedef {string} id - object ID
        */
 
       /**
@@ -55,7 +70,7 @@
               >
                 {item.name}
               </span>
-              <button onClick={() => remove(item.id)}>X</button>
+              <button onClick={() => remove(item)}>X</button>
             </li>
           ))}
         </ul>
@@ -69,33 +84,46 @@
         /**
          * Adds a todo
          * @param {object} e - JS event object
+         * @returns {Promise}
          */
         addItem = (e) => {
           e.preventDefault();
 
-          const name = this.input.value;
-          this.input.value = "";
-
-          this.props.store.dispatch(
-            addTodoAction({
-              id: generateId(),
-              complete: false,
-              name,
+          return API.saveTodo(this.input.value)
+            .then((todo) => {
+              this.input.value = "";
+              this.props.store.dispatch(addTodoAction(todo));
             })
-          );
+            .catch(() => alert("An error occurred. Try again"));
         };
 
         /**
          * Remove a todo
-         * @param {string} id - The todo id
+         * @param {todo} todo - The todo to remove
+         * @returns {Promise}
          */
-        removeItem = (id) => this.props.store.dispatch(removeTodoAction(id));
+        removeItem = (todo) => {
+          this.props.store.dispatch(removeTodoAction(todo.id));
+
+          return API.deleteTodo(todo.id).catch(() => {
+            alert("An error occurred. Try again");
+            this.props.store.dispatch(addTodoAction(todo));
+          });
+        };
 
         /**
          * Toggle a todo
-         * @param {string} id - the todo id
+         * @param {id} id - The todo id to toggle
+         * @returns {Promise}
          */
-        toggleItem = (id) => this.props.store.dispatch(toggleTodoAction(id));
+        toggleItem = (id) => {
+          this.props.store.dispatch(toggleTodoAction(id));
+
+          return API.saveTodoToggle(id).catch(() => {
+            alert("An error occurred. Try again");
+            this.props.store.dispatch(toggleTodoAction(id));
+          });
+        };
 
         /**
          * Renders the Todos component UI
@@ -134,26 +162,33 @@
         /**
          * Adds a goal
          * @param {object} e - JS event object
+         * @returns {Promise}
          */
         addItem = (e) => {
           e.preventDefault();
 
-          const name = this.input.value;
-          this.input.value = "";
+          return API.saveGoal(this.input.value)
+            .then((goal) => {
+              this.input.value = "";
 
-          this.props.store.dispatch(
-            addGoalAction({
-              id: generateId(),
-              name,
+              this.props.store.dispatch(addGoalAction(goal));
             })
-          );
+            .catch(() => alert("An error occurred. Try again"));
         };
 
         /**
          * Removes a goal
-         * @param {string} id - The goal id
+         * @param {goal} goal - The goal to remove
+         * @returns {Promise}
          */
-        removeItem = (id) => this.props.store.dispatch(removeGoalAction(id));
+        removeItem = (goal) => {
+          this.props.store.dispatch(removeGoalAction(goal.id));
+
+          return API.deleteGoal(goal.id).catch(() => {
+            alert("An error occurred. Try again");
+            this.props.store.dispatch(addGoalAction(goal));
+          });
+        };
 
         /**
          * Renders the Goals component UI
@@ -190,6 +225,12 @@
          */
         componentDidMount() {
           this.props.store.subscribe(() => this.forceUpdate());
+
+          Promise.all([API.fetchGoals(), API.fetchTodos()]).then(
+            ([goals, todos]) => {
+              this.props.store.dispatch(receiveDataAction(goals, todos));
+            }
+          );
         }
 
         /**
@@ -199,9 +240,11 @@
         render() {
           const { store } = this.props;
 
-          const { todos, goals } = store.getState();
+          const { loading, todos, goals } = store.getState();
 
-          return (
+          return !loading ? (
+            <h3>loading</h3>
+          ) : (
             <div>
               <h2>App</h2>
               <Todos store={store} todos={todos} />

@@ -52,6 +52,11 @@
  */
 
 /**
+ * Definition for loading
+ * @typedef {boolean} loading - loading
+ */
+
+/**
  *! APP CODE
  */
 
@@ -63,6 +68,7 @@ const REMOVE_GOAL = "REMOVE_GOAL";
 const ADD_TODO = "ADD_TODO";
 const REMOVE_TODO = "REMOVE_TODO";
 const TOGGLE_TODO = "TOGGLE_TODO";
+const RECEIVE_DATA = "RECEIVE_DATA";
 
 /**
  ** ACTION CREATORS
@@ -72,6 +78,18 @@ const removeGoalAction = (id) => ({ type: REMOVE_GOAL, id });
 const addTodoAction = (todo) => ({ type: ADD_TODO, todo });
 const removeTodoAction = (id) => ({ type: REMOVE_TODO, id });
 const toggleTodoAction = (id) => ({ type: TOGGLE_TODO, id });
+const receiveDataAction = (goal, todo) => ({ type: RECEIVE_DATA, goal, todo });
+
+/**
+ ** Loading reducer
+ * @param {loading} state - Loading state
+ * @param {action} action - Action changing the state
+ * @returns {loading}
+ */
+const loading = (state = false, action) =>
+  ({
+    RECEIVE_DATA: true,
+  }[action.type] || state);
 
 /**
  ** TODO reducer
@@ -83,6 +101,7 @@ const todos = (state = [], action) =>
   ({
     ADD_TODO: [...state, action.todo],
     REMOVE_TODO: state.filter(({ id }) => id !== action.id),
+    RECEIVE_DATA: action.todo,
     TOGGLE_TODO: state.map((todo) =>
       todo.id === action.id ? { ...todo, complete: !todo.complete } : todo
     ),
@@ -97,6 +116,7 @@ const todos = (state = [], action) =>
 const goals = (state = [], action) =>
   ({
     ADD_GOAL: [...state, action.goal],
+    RECEIVE_DATA: action.goal,
     REMOVE_GOAL: state.filter(({ id }) => id !== action.id),
   }[action.type] || state);
 
@@ -139,6 +159,7 @@ const logger = (store) => (next) => (action) => {
 
 const store = Redux.createStore(
   Redux.combineReducers({
+    loading,
     todos,
     goals,
   }),
