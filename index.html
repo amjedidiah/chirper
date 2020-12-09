@@ -27,6 +27,16 @@
     <!-- Redux -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
 
+    <!-- Redux Thunk -->
+    <script src="https://unpkg.com/redux-thunk@2.2.0/dist/redux-thunk.min.js"></script>
+
+    <!-- Redux Promise Middleware -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/redux-promise-middleware/6.1.2/redux-promise-middleware.min.js"
+      integrity="sha512-yoJ8Iqdgzkt5HKscGJUhIZm2G8Fkh6rSyAjJUc5bL/gX7OpOsmrsZYKRgWFHkGQXO1IYPhMkxswZalC9usDONw=="
+      crossorigin="anonymous"
+    ></script>
+
     <!-- API  -->
     <script src="https://tylermcginnis.com/goals-todos-api/index.js"></script>
 
@@ -53,12 +63,12 @@
        */
 
       /**
-       * Renders the List component UI
-       * @returns {object} - The UI DOM object
+       * List component: Renders the List component UI
        * @param {object} props - List component props
        * @param {todo[] | goal[]} props.items - The list items
        * @param {function} props.remove - Remove item function
        * @param {function} [props.toggle] - Toggle todo function
+       * @returns {object} - The UI DOM object
        */
       const List = ({ items, remove, toggle }) => (
         <ul>
@@ -84,74 +94,56 @@
         /**
          * Adds a todo
          * @param {object} e - JS event object
-         * @returns {Promise}
+         * @returns {promise}
          */
         addItem = (e) => {
           e.preventDefault();
 
-          return API.saveTodo(this.input.value)
-            .then((todo) => {
-              this.input.value = "";
-              this.props.store.dispatch(addTodoAction(todo));
-            })
-            .catch(() => alert("An error occurred. Try again"));
+          this.props.store.dispatch(
+            handleAddTodo(this.input.value, () => (this.input.value = ""))
+          );
         };
 
         /**
-         * Remove a todo
+         * Removes a todo
          * @param {todo} todo - The todo to remove
-         * @returns {Promise}
+         * @returns {promise}
          */
-        removeItem = (todo) => {
-          this.props.store.dispatch(removeTodoAction(todo.id));
-
-          return API.deleteTodo(todo.id).catch(() => {
-            alert("An error occurred. Try again");
-            this.props.store.dispatch(addTodoAction(todo));
-          });
-        };
+        removeItem = (todo) =>
+          this.props.store.dispatch(handleDeleteTodo(todo));
 
         /**
-         * Toggle a todo
+         * Toggles a todo
          * @param {id} id - The todo id to toggle
-         * @returns {Promise}
+         * @returns {promise}
          */
-        toggleItem = (id) => {
-          this.props.store.dispatch(toggleTodoAction(id));
-
-          return API.saveTodoToggle(id).catch(() => {
-            alert("An error occurred. Try again");
-            this.props.store.dispatch(toggleTodoAction(id));
-          });
-        };
+        toggleItem = (id) => this.props.store.dispatch(handleToggle(id));
 
         /**
          * Renders the Todos component UI
          * @returns {object} - The UI DOM object
          */
-        render() {
-          return (
-            <div>
-              <h1>Todos List</h1>
+        render = () => (
+          <div>
+            <h1>Todos List</h1>
 
-              <form>
-                <input
-                  type="text"
-                  placeholder="Add Todo"
-                  aria-label="todo"
-                  ref={(input) => (this.input = input)}
-                />
-                <button onClick={this.addItem}>Add Todo</button>
-              </form>
-
-              <List
-                items={this.props.todos}
-                remove={this.removeItem}
-                toggle={this.toggleItem}
+            <form>
+              <input
+                type="text"
+                placeholder="Add Todo"
+                aria-label="todo"
+                ref={(input) => (this.input = input)}
               />
-            </div>
-          );
-        }
+              <button onClick={this.addItem}>Add Todo</button>
+            </form>
+
+            <List
+              items={this.props.todos}
+              remove={this.removeItem}
+              toggle={this.toggleItem}
+            />
+          </div>
+        );
       }
 
       /**
@@ -162,57 +154,45 @@
         /**
          * Adds a goal
          * @param {object} e - JS event object
-         * @returns {Promise}
+         * @returns {promise}
          */
         addItem = (e) => {
           e.preventDefault();
 
-          return API.saveGoal(this.input.value)
-            .then((goal) => {
-              this.input.value = "";
-
-              this.props.store.dispatch(addGoalAction(goal));
-            })
-            .catch(() => alert("An error occurred. Try again"));
+          this.props.store.dispatch(
+            handleAddGoal(this.input.value, () => (this.input.value = ""))
+          );
         };
 
         /**
          * Removes a goal
          * @param {goal} goal - The goal to remove
-         * @returns {Promise}
+         * @returns {promise}
          */
-        removeItem = (goal) => {
-          this.props.store.dispatch(removeGoalAction(goal.id));
-
-          return API.deleteGoal(goal.id).catch(() => {
-            alert("An error occurred. Try again");
-            this.props.store.dispatch(addGoalAction(goal));
-          });
-        };
+        removeItem = (goal) =>
+          this.props.store.dispatch(handleDeleteGoal(goal));
 
         /**
          * Renders the Goals component UI
          * @returns {object} - the UI DOM object
          */
-        render() {
-          return (
-            <div>
-              <h1>Goals</h1>
+        render = () => (
+          <div>
+            <h1>Goals</h1>
 
-              <form>
-                <input
-                  type="text"
-                  placeholder="Add Goal"
-                  aria-label="goal"
-                  ref={(input) => (this.input = input)}
-                />
+            <form>
+              <input
+                type="text"
+                placeholder="Add Goal"
+                aria-label="goal"
+                ref={(input) => (this.input = input)}
+              />
 
-                <button onClick={this.addItem}>Add Goal</button>
-              </form>
-              <List items={this.props.goals} remove={this.removeItem} />
-            </div>
-          );
-        }
+              <button onClick={this.addItem}>Add Goal</button>
+            </form>
+            <List items={this.props.goals} remove={this.removeItem} />
+          </div>
+        );
       }
 
       /**
@@ -224,13 +204,11 @@
          * Lifecycle method that runs after component has mounted
          */
         componentDidMount() {
-          this.props.store.subscribe(() => this.forceUpdate());
+          const { dispatch, subscribe } = this.props.store;
 
-          Promise.all([API.fetchGoals(), API.fetchTodos()]).then(
-            ([goals, todos]) => {
-              this.props.store.dispatch(receiveDataAction(goals, todos));
-            }
-          );
+          subscribe(() => this.forceUpdate());
+
+          dispatch(handleInitialData());
         }
 
         /**
