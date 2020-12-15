@@ -16,21 +16,14 @@
  */
 
 /**
- * Alternative todos state definition for a function
- * @param {Object[]} state - Store state
- * @param {string} state[].id - todo ID
+ * Definition for id
+ * @typedef {string} id - A goal or todo id
  */
 
 /**
- * Alternative action definition for a function
- * @param {Object} action - Action chnaging the state
- * @param {string}  action.type - Type of the action
- */
-
-/**
- * Definition for TODO
+ * Definition for Todo
  * @typedef {Object} todo
- * @property {string} id - todo ID
+ * @property {id} id - todo ID
  * @property {boolean} complete - todo complete status
  * @property {string} name - todo name
  */
@@ -38,18 +31,25 @@
 /**
  * Definition for Goal
  * @typedef {Object} goal
- * @property {string} id - goal ID
+ * @property {id} id - goal ID
  * @property {string} name - goal name
- */
-
-/**
- * Definition for id
- * @typedef {string} id - A goal or todo id
  */
 
 /**
  * Definition for loading
  * @typedef {boolean} loading - loading
+ */
+
+/**
+ * Alternative todos state definition for a function
+ * @param {Object[]} state - Store state
+ * @param {id} state[].id - todo ID
+ */
+
+/**
+ * Alternative action definition for a function
+ * @param {Object} action - Action chnaging the state
+ * @param {string}  action.type - Type of the action
  */
 
 /**
@@ -72,11 +72,15 @@ const TOGGLE_TODO = "TOGGLE_TODO";
 
 /**
  * Add todos and goals from DB to store
- * @param {goal} goal - goals to add
- * @param {todo} todo - todos to add
- * @returns {{type: string, goal:goal, todo: todo}}
+ * @param {goal[]} goals - goals to add
+ * @param {todo[]} todos - todos to add
+ * @returns {{type: string, goals:goal[], todos: todo[]}}
  */
-const receiveDataAction = (goal, todo) => ({ type: RECEIVE_DATA, goal, todo });
+const receiveDataAction = (goals, todos) => ({
+  type: RECEIVE_DATA,
+  goals,
+  todos,
+});
 
 /**
  * Async action creator to fetch Initial data from DB
@@ -118,8 +122,8 @@ const addGoalAction = (goal) => ({ type: ADD_GOAL, goal });
 
 /**
  * Async action creator to add goal
- * @param {string} goalName - goal name to add
- * @param {function} cb - callback fundtion to empty formm input
+ * @param {string} goalName - name of goal to add
+ * @param {function} cb - callback function to empty form input
  * @returns {promise}
  */
 const handleAddGoal = (goalName, cb) => (dispatch) =>
@@ -129,7 +133,7 @@ const handleAddGoal = (goalName, cb) => (dispatch) =>
 
       dispatch(addGoalAction(goal));
     })
-    .catch(() => alert("An error occurred. Try again"));
+    .catch((err) => alert("An error occurred. Try again"));
 
 /**
  * Action craetor to remove a goal
@@ -151,7 +155,6 @@ const handleDeleteGoal = (goal) => (dispatch) => {
     dispatch(addGoalAction(goal));
   });
 };
-
 
 /**
  * Action creator to add a todo
@@ -240,8 +243,8 @@ const loading = (state = false, action) =>
 const todos = (state = [], action) =>
   ({
     ADD_TODO: [...state, action.todo],
+    RECEIVE_DATA: action.todos,
     REMOVE_TODO: state.filter(({ id }) => id !== action.id),
-    RECEIVE_DATA: action.todo,
     TOGGLE_TODO: state.map((todo) =>
       todo.id === action.id ? { ...todo, complete: !todo.complete } : todo
     ),
@@ -256,10 +259,9 @@ const todos = (state = [], action) =>
 const goals = (state = [], action) =>
   ({
     ADD_GOAL: [...state, action.goal],
-    RECEIVE_DATA: action.goal,
-    REMOVE_GOAL: state.filter(({ id }) => id !== action.id),
+    RECEIVE_DATA: action.goals,
+    REMOVE_GOAL: state.filter(({id}) => id !== action.id),
   }[action.type] || state);
-
 
 /**
  ** STORE CODE
@@ -321,7 +323,6 @@ const store = Redux.createStore(
     goals,
   }),
   Redux.applyMiddleware(
-    ReduxPromiseMiddleware.default,
     ReduxThunk.default,
     checker,
     logger
