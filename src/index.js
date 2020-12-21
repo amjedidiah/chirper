@@ -3,18 +3,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-
-import middleware from "./middleware"
-import reducers from "./reducers"
+import store from "./store"
 
 
 import "./index.css";
 
 // Component imports
 import ConnectedApp from "./components/App";
-
-const store = createStore(reducers, middleware);
 
 ReactDOM.render(
   <Provider store={store}>
