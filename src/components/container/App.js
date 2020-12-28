@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import LoadingBar from 'react-redux-loading';
 
 // Action creator imports
 import {handleInitialData} from 'redux/actions/shared';
@@ -33,7 +34,12 @@ export class App extends Component {
    * @return {object} The UI DOM object
    */
   render() {
-    return <div>{this.props.loading ? <p>Loading</p> : <Dashboard />}</div>;
+    return (
+      <div>
+        <LoadingBar />
+        {!this.props.loading && <Dashboard />}
+      </div>
+    );
   }
 }
 
@@ -42,8 +48,8 @@ export class App extends Component {
  * @param {state} state
  * @return {appStateProps}
  */
-const mapStateToProps = ({authedUser}) => ({
-  loading: authedUser === null,
+const mapStateToProps = ({loadingBar}) => ({
+  loading: loadingBar.default === 1,
 });
 
 // App export
