@@ -10,6 +10,14 @@
  */
 
 /**
+ * Definition for Redux store
+ * @typedef {object} store
+ * @property {function} dispatch - Dispatches actions or action creators
+ * @property {function} getState - Returns current state
+ * @property {funtion} subscribe - Adds functions to execute on state change
+ */
+
+/**
  * Definition for tweet
  * @typedef {Object} tweet
  */

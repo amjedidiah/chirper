@@ -41,3 +41,11 @@ These are the rules to use for normalizing state data
 Generally, accessing the store from an action creator is considered an anti-pattern. Dan Abramov says that the few use cases where it's acceptable to do that are:
 
 > to check cached data before you make a request or to check whether you are authenticated (in other words, doing a conditional dispatch).
+
+## Development Order
+
+- Setup
+- Actions
+- Reducers
+- Store
+- Middleware
