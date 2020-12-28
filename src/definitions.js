@@ -16,6 +16,14 @@
  */
 
 /**
+ * Definition for info
+ * @typedef {object} info
+ * @property {id} authedUser - The authedUser ID
+ * @property {id} id - The tweet ID
+ * @property {boolean} hasLiked - If the tweet has been liked or not
+ */
+
+/**
  * Definition for state
  * @typedef {object} state
  * @property {string} authedUser - The autheduser ID
@@ -64,7 +72,7 @@
  */
 
 /**
- * MapStateToProps Definitions
+ * MAPSTATETOPROPS DEFINITIONS
  */
 /**
  * App State Props

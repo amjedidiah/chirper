@@ -11,6 +11,9 @@ import {
 // Util imports
 import {formatTweet, formatDate} from 'utils/helpers';
 
+// Action creator imports
+import {handleToggleTweet} from 'redux/actions/tweets';
+
 /**
  * Tweet component
  */
@@ -19,6 +22,8 @@ export class Tweet extends Component {
    * Tweet propTypes
    */
   static propTypes = {
+    authedUser: PropTypes.string,
+    handleToggleTweet: PropTypes.func,
     tweet: PropTypes.object,
   };
 
@@ -29,7 +34,13 @@ export class Tweet extends Component {
   handleLike = (e) => {
     e.preventDefault();
 
-    // todo: Handle like tweet
+    const {authedUser, tweet} = this.props;
+
+    this.props.handleToggleTweet({
+      id: tweet.id,
+      authedUser,
+      hasLiked: tweet.hasLiked,
+    });
   };
 
   /**
@@ -123,4 +134,4 @@ const mapStateToProps = ({authedUser, tweets, users}, {id}) => {
 };
 
 // Tweet export
-export default connect(mapStateToProps)(Tweet);
+export default connect(mapStateToProps, {handleToggleTweet})(Tweet);

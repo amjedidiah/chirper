@@ -24,23 +24,20 @@ export class App extends Component {
 
   /**
    * Executes once component mounts
+   * @return {actionCreator}
    */
-  componentDidMount() {
-    this.props.handleInitialData();
-  }
+  componentDidMount = () => this.props.handleInitialData();
 
   /**
    * Renders the App UI
    * @return {object} The UI DOM object
    */
-  render() {
-    return (
-      <div>
-        <LoadingBar />
-        {!this.props.loading && <Dashboard />}
-      </div>
-    );
-  }
+  render = () => (
+    <div>
+      <LoadingBar />
+      {!this.props.loading && <Dashboard />}
+    </div>
+  );
 }
 
 /**

@@ -3,6 +3,10 @@
  */
 export const RECEIVE_TWEETS = 'RECEIVE_TWEETS';
 /**
+ * @const {string} TOGGLE_TWEETS
+ */
+export const TOGGLE_TWEET = 'TOGGLE_TWEET';
+/**
  * @const {string} RECEIVE_USERS
  */
 export const RECEIVE_USERS = 'RECEIVE_USERS';

@@ -21,20 +21,18 @@ export class Dashboard extends Component {
    * Renders the Dashboard UI
    * @return {object} - The UI DOM object
    */
-  render() {
-    return (
-      <div>
-        <h3 className="center">Your Timeline</h3>
-        <ul>
-          {this.props.tweetIDs.map((ID) => (
-            <li key={ID}>
-              <Tweet id={ID} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+  render = () => (
+    <div>
+      <h3 className="center">Your Timeline</h3>
+      <ul>
+        {this.props.tweetIDs.map((ID) => (
+          <li key={ID}>
+            <Tweet id={ID} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 /**

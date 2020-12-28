@@ -23,9 +23,13 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react", "import"
+    "react",
+    "import",
+    "babel"
   ],
   "rules": {
+    "no-invalid-this": 0,
+    "babel/no-invalid-this": 1
   },
   "parser": "babel-eslint",
   "settings": {
@@ -55,7 +59,10 @@
     ],
     "import/resolver": {
       "node": {
-        "moduleDirectory": ["node_modules", "src/"]
+        "moduleDirectory": [
+          "node_modules",
+          "src/"
+        ]
       }
     }
   }
