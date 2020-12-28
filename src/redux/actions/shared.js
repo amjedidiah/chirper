@@ -13,7 +13,7 @@ const AUTHED_ID = 'tylermcginnis';
  * @return {function}
  */
 export const handleInitialData = () => (dispatch) =>
-  getInitialData.then(({tweets, users}) => {
+  getInitialData().then(({tweets, users}) => {
     dispatch(receiveTweets(tweets));
     dispatch(receiveUsers(users));
     dispatch(setAuthedUser(AUTHED_ID));
