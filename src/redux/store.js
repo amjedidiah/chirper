@@ -5,7 +5,10 @@ import {createStore} from 'redux';
 import reducers from 'redux/reducers';
 import middleware from 'redux/middleware';
 
-// Store
+/**
+ * Redux store
+ * @const {store}
+ */
 const store = createStore(reducers, middleware );
 
 // Store export

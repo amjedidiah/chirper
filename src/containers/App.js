@@ -6,16 +6,19 @@ import PropTypes from 'prop-types';
 // Action creator imports
 import {handleInitialData} from 'redux/actions/shared';
 
+// Container imports
+import Dashboard from 'containers/Dashboard';
+
 /**
  * App component
- * @constructor
  */
-class App extends Component {
+export class App extends Component {
   /**
-   * App proptypes
+   * App propTypes
    */
   static propTypes = {
     handleInitialData: PropTypes.func,
+    loading: PropTypes.bool,
   };
 
   /**
@@ -26,11 +29,22 @@ class App extends Component {
   }
 
   /**
-   * Renders the App component UI
-   * @return {any} The UI DOM object
+   * Renders the App UI
+   * @return {object} The UI DOM object
    */
-  render = () => <div>Starter Code</div>;
+  render() {
+    return <div>{this.props.loading ? <p>Loading</p> : <Dashboard />}</div>;
+  }
 }
 
+/**
+ * Maps state to Dashboard component props
+ * @param {state} state
+ * @return {appStateProps}
+ */
+const mapStateToProps = ({authedUser}) => ({
+  loading: authedUser === null,
+});
+
 // App export
-export default connect(null, {handleInitialData})(App);
+export default connect(mapStateToProps, {handleInitialData})(App);

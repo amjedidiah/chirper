@@ -4,8 +4,8 @@
  * @param {action} action - Redux action
  * @return {tweets} - tweets state
  */
-const tweets = (state = {}, action) =>
-  ({RECEIVE_TWEETS: {...state, ...action.tweets}}[action.type] || state);
+const tweets = (state = {}, {tweets, type}) =>
+  ({RECEIVE_TWEETS: {...state, ...tweets}}[type] || state);
 
 // Export tweets reducer
 export default tweets;
