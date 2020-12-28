@@ -1,7 +1,13 @@
 /**
- * Definition for redux action
+ * Definition for action
  * @typedef {Object} action
  * @property {string} type - Action type
+ */
+
+/**
+ * Definition for action creator
+ * @typedef {function} actionCreator
+ * @return {action} action
  */
 
 /**
@@ -12,7 +18,7 @@
 /**
  * Definition for state
  * @typedef {object} state
- * @property {string} autheduser - The autheduser ID
+ * @property {string} authedUser - The autheduser ID
  * @property {tweets} tweets - All tweets
  * @property {users} users - All users
  */
@@ -22,19 +28,27 @@
  * @typedef {object} store
  * @property {function} dispatch - Dispatches actions or action creators
  * @property {function} getState - Returns current state
- * @property {funtion} subscribe - Adds functions to execute on state change
+ * @property {function} subscribe - Adds functions to execute on state change
  */
 
 /**
  * Definition for tweet
  * @typedef {Object} tweet
  * @property {string} id - the id of this tweet
+ * @property {string} avatar - author avatar
+ * @property {boolean} hasLiked - if tweet has been liked
+ * @property {number} likes - number of likes
+ * @property {string} name - author name
+ * @property {string} parent - tweet parent id
+ * @property {number} replies - number of replies
+ * @property {string} text - tweet text
+ * @property {number} timestanp - tweet timestamp
  */
 
 /**
  * Definition for tweets
  * @typedef {Object} tweets
- * @property {string} tweetID - the id of a particuular tweet
+ * @property {tweet} tweetID - the id of a particuular tweet
  */
 
 /**
@@ -46,7 +60,7 @@
 /**
  * Definition for users
  * @typedef {Object} users
- * @property {string} userID - the id of a particular user
+ * @property {user} userID - the id of a particular user
  */
 
 /**
@@ -61,4 +75,10 @@
  * Dashboard State Props
  * @typedef {object} dashboardStateProps
  * @property {id[]} tweetIDs - Array of tweetIDs
+ */
+/**
+ * Tweet State Props
+ * @typedef {object} tweetStateProps
+ * @property {id} authedUser - The authed user
+ * @property {tweet} tweet - A tweet
  */

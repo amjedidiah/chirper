@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {handleInitialData} from 'redux/actions/shared';
 
 // Container imports
-import Dashboard from 'containers/Dashboard';
+import Dashboard from 'components/container/Dashboard';
 
 /**
  * App component

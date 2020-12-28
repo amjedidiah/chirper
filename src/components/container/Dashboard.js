@@ -3,10 +3,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+// Container imports
+import Tweet from 'components/container/Tweet';
+
 /**
  * Dashboard Component
  */
-class Dashboard extends Component {
+export class Dashboard extends Component {
   /**
    * Dashboard propTypes
    */
@@ -25,7 +28,7 @@ class Dashboard extends Component {
         <ul>
           {this.props.tweetIDs.map((ID) => (
             <li key={ID}>
-              <div>TWEET ID: {ID}</div>
+              <Tweet id={ID} />
             </li>
           ))}
         </ul>

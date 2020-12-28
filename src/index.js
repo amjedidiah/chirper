@@ -10,7 +10,7 @@ import store from 'redux/store';
 import 'index.css';
 
 // Component imports
-import App from 'containers/App';
+import App from 'components/container/App';
 import reportWebVitals from 'reportWebVitals';
 
 ReactDOM.render(

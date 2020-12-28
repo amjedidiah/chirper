@@ -13,7 +13,7 @@ const AUTHED_ID = 'tylermcginnis';
 
 /**
  * Async action creator to handle initial data
- * @return {function}
+ * @return {actionCreator}
  */
 export const handleInitialData = () => (dispatch) =>
   getInitialData().then(({tweets, users}) => {
