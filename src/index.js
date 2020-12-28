@@ -1,24 +1,26 @@
 // Module imports
-import React from "react";
-import ReactDOM from "react-dom";
-import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
-import store from "./store"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
 
+// Store import
+import store from 'redux/store';
 
-import "./index.css";
+// Style imports
+import 'index.css';
 
 // Component imports
-import ConnectedApp from "./components/App";
+import App from 'components/App';
+import reportWebVitals from 'reportWebVitals';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedApp />
-  </Provider>,
-  document.getElementById("root")
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals(console.log);
+reportWebVitals();
