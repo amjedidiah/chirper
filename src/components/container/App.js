@@ -9,6 +9,7 @@ import {handleInitialData} from 'redux/actions/shared';
 
 // Container imports
 import Dashboard from 'components/container/Dashboard';
+import TweetForm from 'components/controlled/TweetForm';
 
 /**
  * App component
@@ -45,8 +46,8 @@ export class App extends Component {
  * @param {state} state
  * @return {appStateProps}
  */
-const mapStateToProps = ({loadingBar}) => ({
-  loading: loadingBar.default === 1,
+const mapStateToProps = ({authedUser}) => ({
+  loading: authedUser === null,
 });
 
 // App export

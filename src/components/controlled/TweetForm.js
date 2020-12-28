@@ -1,16 +1,23 @@
 // Module imports
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+
+// Action creator imports
+import {handleAddTweet} from 'redux/actions/tweets';
 
 /**
  * TweetForm component
  */
-export default class TweetForm extends Component {
+class TweetForm extends Component {
   /**
    * TweetForm propTypes
    */
   static propTypes = {
-    prop: PropTypes,
+    authedUser: PropTypes.string,
+    handleAddTweet: PropTypes.func,
+    id: PropTypes.string,
+    text: PropTypes.string,
   };
 
   /**
@@ -36,8 +43,9 @@ export default class TweetForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // todo: Add tweet to store
-    console.log(this.state.text);
+    const {authedUser, id} = this.props;
+
+    this.props.handleAddTweet(authedUser, this.state.text, id);
 
     this.setState(() => ({text: ''}));
   };
@@ -72,3 +80,13 @@ export default class TweetForm extends Component {
     );
   };
 }
+
+/**
+ * Maps state to TweetForm component props
+ * @param {state} state
+ * @return {tweetFormStateProps}
+ */
+const mapStateToProps = ({authedUser}) => ({authedUser});
+
+// TweetForm export
+export default connect(mapStateToProps, {handleAddTweet})(TweetForm);

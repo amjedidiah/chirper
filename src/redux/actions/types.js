@@ -1,4 +1,8 @@
 /**
+ * @const {string} ADD_TWEET
+ */
+export const ADD_TWEET = 'ADD_TWEET';
+/**
  * @const {string} RECEIVE_TWEETS
  */
 export const RECEIVE_TWEETS = 'RECEIVE_TWEETS';

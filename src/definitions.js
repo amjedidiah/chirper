@@ -90,3 +90,8 @@
  * @property {id} authedUser - The authed user
  * @property {tweet} tweet - A tweet
  */
+/**
+ * TweetForm State Props
+ * @typedef {object} tweetFormStateProps
+ * @property {id} authedUser - The authed user
+ */
