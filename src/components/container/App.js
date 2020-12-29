@@ -38,7 +38,7 @@ class App extends Component {
    * @return {object} The UI DOM object
    */
   render = () => (
-    <Router>
+    <Router basename="/">
       <>
         <LoadingBar />
         <div className="container">
