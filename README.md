@@ -1,61 +1,88 @@
-# Udacity Goals Todo
+# Chirper Project
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d2a402a877594f9ea329b6c548005201)](https://www.codacy.com/gh/amjedidiah/custom-redux-library/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=amjedidiah/custom-redux-library&amp;utm_campaign=Badge_Grade)
+<!-- TODO: add codacy badge -->
 
-A custom implementation of the **redux library**, in VanillaJS from the Uadcity React Nanodegree Course using a Goal/Todo HTML app.
-The redux store has 4 parts
+> A minimal twitter clone
 
-- The state tree
-- `getState` : Gets the state
-- `subscribe` : Listens for state changes
-- `dispatch` : Updates the state
+My own copy of the Chirper project in the [React Nanodegree program](https://www.udacity.com/course/react-nanodegree--nd019).
 
 ## Table of Content
 
 - [Quick Start](#quick-start)
+- [Modifications](#modifications)
 - [Contributing](#contributing)
 - [License](#license)
 - [About Me](#about-me)
+- [Create React App](#create-react-app)
 
 ## Quick Start
 
 ### Installation
 
 ```bash
-git clone https://github.com/amjedidiah/custom-redux-library.git custom-redux-library
-cd custom-redux-library
+---
+git clone https://github.com/amjedidiah/chirper.git chirper
+cd chirper
+yarn install
+yarn start
 ```
-
-> Open index.html file in browser
 
 ### Usage
 
-<!-- TODO: Update demo video link -->
-<!-- Watch this short [demo video]() of how to use the app. -->
+You can do the following on the App
 
-#### TODOS
+#### View all tweets
 
-##### Add TODO
+- View all tweets from the homepage of the app
 
-Add todo by filling in the todo form
+#### Post a new tweet
 
-##### Mark TODO
+- Post a new tweet up to 270 characters.
+- The remaining word count shows once you get to **100** words left
 
-mark todo as done or undone by clicking the todo
+#### Reply to a tweet
 
-##### Delete TODO
+- Click the **reply-to** icon to reply to a tweet
 
-Delete todo by clicking the **_x_** button beside the todo
+> The reply is added to the list of tweets with a field that shows who the reply was to
 
-#### Goals
+#### Like a tweet
 
-##### Add Goal
+- Click the heart icon to like a tweet
 
-Add goal by filling in the goal form
+## Modifications
 
-##### Delete Goal
+As earlier stated, this is my personal copy of the **Udacity React Nanodegree CHirper Project**.
 
-Delete goal by clicking the **_x_** button beside the goal
+Personal modifictaions include:
+
+1. Repo structure for componengts and redux
+
+   - Distinct component folders as follows
+
+   ```bash
+   -- components
+   ---- containers
+   ---- controlled
+   ---- presentations
+   ```
+
+   - Distinct redux folder as follows:
+
+   ```bash
+   -- redux
+   ---- actions
+   ---- middleware
+   ---- reducers
+   ---- selectors.js
+   ---- store.js
+   ```
+
+2. Color for number of tweet characters left
+
+   - 0 - 49 : red
+   - 50 - 180: blue
+   - 181 - 269: green
 
 ## Contributing
 
@@ -79,3 +106,7 @@ Do you need a website or a web app for your business/idea, a web tutor, or a con
 Send me an email: imunacode@gmail.com
 
 Skills: React, Express, Node, PHP, PostgreSQL, MySQL
+
+## Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
