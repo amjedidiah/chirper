@@ -48,7 +48,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "predeploy": "yarn build",
+    "predeploy": "yarn run predev && yarn build",
     "deploy": "gh-pages -d build"
   },
   "pre-commit": "predev",
@@ -65,5 +65,5 @@
     ]
   },
   "license": "MIT",
-  "homepage": "https://github.com/amjedidiah/chirper"
+  "homepage": "https://github.com/chirper"
 }

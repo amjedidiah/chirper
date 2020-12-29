@@ -84,6 +84,9 @@ Personal modifictaions include:
    - 50 - 180: blue
    - 181 - 269: green
 
+3. Planning Folder
+   A folder giving info about the thought process of the planning of the project
+
 ## Contributing
 
 Please see [CONTRIBUTING.md](docs/CONTRIBUTING.md)

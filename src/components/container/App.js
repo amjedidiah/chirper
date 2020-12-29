@@ -38,8 +38,10 @@ class App extends Component {
    * @return {object} The UI DOM object
    */
   render = () => (
-    <Router basename="/">
+    <Router basename="/chirper">
       <>
+
+        {console.log(this.props)}
         <LoadingBar />
         <div className="container">
           <Nav />
