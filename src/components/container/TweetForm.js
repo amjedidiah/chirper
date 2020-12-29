@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 // Action creator imports
 import {handleAddTweet} from 'redux/actions/tweets';
@@ -25,6 +26,7 @@ class TweetForm extends Component {
    */
   state = {
     text: '',
+    toHome: false,
   };
 
   /**
@@ -48,20 +50,28 @@ class TweetForm extends Component {
     // id here is the ID of the tweet we are replying to
     this.props.handleAddTweet(authedUser, this.state.text, id);
 
-    this.setState(() => ({text: ''}));
+    this.setState(() => ({text: '', toHome: id ? false : true}));
   };
+
+  /**
+   * Changes color of tweetLeft
+   * @param {number} tweetLeft - number of characters left in tweet
+   * @return {string} - tweetLeft color
+   */
+  tweetLeftColor = (tweetLeft) =>
+    tweetLeft >= 181 ? 'green' : tweetLeft >= 51 ? 'blue' : 'red';
 
   /**
    * Renders TweetForm UI
    * @return {object} - The UI DOM object
    */
   render = () => {
-    const {text} = this.state;
-    const tweetLeft = 280 - text.length;
+    const {text, toHome} = this.state;
+    const tweetLeft = 270 - text.length;
 
-    // todo: Redirect to homeview if submitted
-
-    return (
+    return toHome ? (
+      <Redirect to="/" />
+    ) : (
       <div>
         <h3 className="center"> Compose new tweet</h3>
         <form className="new-tweet" onSubmit={this.handleSubmit}>
@@ -70,9 +80,16 @@ class TweetForm extends Component {
             value={text}
             onChange={this.handleChange}
             className="textarea"
-            maxLength={280}
+            maxLength={270}
           ></textarea>
-          {tweetLeft <= 100 && <div className="tweet-length">{tweetLeft}</div>}
+          {tweetLeft <= 269 && (
+            <div
+              className="tweet-length"
+              style={{color: this.tweetLeftColor(tweetLeft)}}
+            >
+              {tweetLeft}
+            </div>
+          )}
           <button className="btn" type="submit" disabled={text === ''}>
             Submit
           </button>

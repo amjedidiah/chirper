@@ -18,7 +18,7 @@ const TweetPage = ({id, replies}) => (
   <div>
     <Tweet id={id} />
     <TweetForm id={id} />
-    {replies.length > 0 && <TweetReplies replies={replies} />}
+    {replies && <TweetReplies replies={replies} />}
   </div>
 );
 

@@ -3,16 +3,17 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import LoadingBar from 'react-redux-loading';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 // Action creator imports
 import {handleInitialData} from 'redux/actions/shared';
 
-// Component imports
-import Dashboard from 'components/container/Dashboard';
-import TweetPage from './TweetPage';
-
 // Selector imports
 import {getLoading} from 'redux/selectors';
+import Dashboard from './Dashboard';
+import TweetPage from './TweetPage';
+import TweetForm from './TweetForm';
+import Nav from 'components/presentation/Nav';
 
 /**
  * App component
@@ -37,12 +38,21 @@ class App extends Component {
    * @return {object} The UI DOM object
    */
   render = () => (
-    <div>
-      <LoadingBar />
-      {!this.props.loading && (
-        <TweetPage match={{params: {id: '8xf0y6ziyjabvozdd253nd'}}} />
-      )}
-    </div>
+    <Router>
+      <>
+        <LoadingBar />
+        <div className="container">
+          <Nav />
+          {!this.props.loading && (
+            <div>
+              <Route path="/" exact component={Dashboard} />
+              <Route path="/tweet/:id" component={TweetPage} />
+              <Route path="/new" component={TweetForm} />
+            </div>
+          )}
+        </div>
+      </>
+    </Router>
   );
 }
 
