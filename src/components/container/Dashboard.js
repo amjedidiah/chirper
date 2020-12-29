@@ -1,39 +1,38 @@
 // Module imports
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-// Container imports
+// Component imports
 import Tweet from 'components/container/Tweet';
+
+// Selector imports
+import {getTweetIDs} from 'redux/selectors';
 
 /**
  * Dashboard Component
+ * @param {dashboardProps} props - Component props
+ * @return {object} - The UI DOM object
  */
-export class Dashboard extends Component {
-  /**
-   * Dashboard propTypes
-   */
-  static propTypes = {
-    tweetIDs: PropTypes.array,
-  };
+const Dashboard = ({tweetIDs}) => (
+  <div>
+    <h3 className="center">Your Timeline</h3>
+    <ul>
+      {tweetIDs.map((ID) => (
+        <li key={ID}>
+          <Tweet id={ID} />
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
-  /**
-   * Renders the Dashboard UI
-   * @return {object} - The UI DOM object
-   */
-  render = () => (
-    <div>
-      <h3 className="center">Your Timeline</h3>
-      <ul>
-        {this.props.tweetIDs.map((ID) => (
-          <li key={ID}>
-            <Tweet id={ID} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+/**
+ * Dashboard propTypes
+ */
+Dashboard.propTypes = {
+  tweetIDs: PropTypes.array,
+};
 
 /**
  * Maps state to Dashboard component props
@@ -41,9 +40,7 @@ export class Dashboard extends Component {
  * @return {dashboardStateProps}
  */
 const mapStateToProps = ({tweets}) => ({
-  tweetIDs: Object.keys(tweets).sort(
-      (a, b) => tweets[b].timestamp - tweets[a].timestamp,
-  ),
+  tweetIDs: getTweetIDs(tweets),
 });
 
 // Dashboard export

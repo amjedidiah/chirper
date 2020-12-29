@@ -24,6 +24,13 @@
  */
 
 /**
+ * Definition for match
+ * @typedef {object} match
+ * @property {object} params
+ * @property {id} params.id
+ */
+
+/**
  * Definition for state
  * @typedef {object} state
  * @property {string} authedUser - The autheduser ID
@@ -85,7 +92,7 @@
  * @property {id[]} tweetIDs - Array of tweetIDs
  */
 /**
- * Tweet State Props
+ * TweetState Props
  * @typedef {object} tweetStateProps
  * @property {id} authedUser - The authed user
  * @property {tweet} tweet - A tweet
@@ -94,4 +101,31 @@
  * TweetForm State Props
  * @typedef {object} tweetFormStateProps
  * @property {id} authedUser - The authed user
+ */
+/**
+ * TweetPage State Props
+ * @typedef {object} tweetPageStateProps
+ * @property {id} id - Tweet ID
+ * @property {id[] | []} replies - List of tweet IDs that are replies
+ */
+
+
+/**
+  * COMPONENT PROPS DEFINITIONS
+  */
+/**
+ * Dashboard Props
+ * @typedef {object} tweetPageProps
+ * @property {id} id - ID of particular tweet
+ * @property {id[]} replies - IDs of tweet replies
+ */
+/**
+ * TweetPage Props
+ * @typedef {object} dashboardProps
+ * @property {id[]} tweetIDs - ID of tweets
+ */
+/**
+ * TweetReplies Props
+ * @typedef {object} tweetRepliesProps
+ * @property {id[]} replies - IDs of tweet replies
  */

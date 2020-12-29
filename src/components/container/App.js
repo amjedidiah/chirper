@@ -7,14 +7,17 @@ import LoadingBar from 'react-redux-loading';
 // Action creator imports
 import {handleInitialData} from 'redux/actions/shared';
 
-// Container imports
+// Component imports
 import Dashboard from 'components/container/Dashboard';
-import TweetForm from 'components/controlled/TweetForm';
+import TweetPage from './TweetPage';
+
+// Selector imports
+import {getLoading} from 'redux/selectors';
 
 /**
  * App component
  */
-export class App extends Component {
+class App extends Component {
   /**
    * App propTypes
    */
@@ -36,7 +39,9 @@ export class App extends Component {
   render = () => (
     <div>
       <LoadingBar />
-      {!this.props.loading && <Dashboard />}
+      {!this.props.loading && (
+        <TweetPage match={{params: {id: '8xf0y6ziyjabvozdd253nd'}}} />
+      )}
     </div>
   );
 }
@@ -47,7 +52,7 @@ export class App extends Component {
  * @return {appStateProps}
  */
 const mapStateToProps = ({authedUser}) => ({
-  loading: authedUser === null,
+  loading: getLoading(authedUser),
 });
 
 // App export

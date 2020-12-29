@@ -45,6 +45,7 @@ class TweetForm extends Component {
 
     const {authedUser, id} = this.props;
 
+    // id here is the ID of the tweet we are replying to
     this.props.handleAddTweet(authedUser, this.state.text, id);
 
     this.setState(() => ({text: ''}));

@@ -8,16 +8,19 @@ import {
   TiHeartFullOutline,
 } from 'react-icons/ti';
 
-// Util imports
-import {formatTweet, formatDate} from 'utils/helpers';
-
 // Action creator imports
 import {handleToggleTweet} from 'redux/actions/tweets';
+
+// Util imports
+import {formatDate} from 'utils/helpers';
+
+// Selector imports
+import {getFormattedTweet} from 'redux/selectors';
 
 /**
  * Tweet component
  */
-export class Tweet extends Component {
+class Tweet extends Component {
   /**
    * Tweet propTypes
    */
@@ -61,6 +64,8 @@ export class Tweet extends Component {
   render() {
     const {tweet} = this.props;
 
+    if (!tweet) return <p>This tweet does not exist</p>;
+
     const {
       name,
       avatar,
@@ -72,7 +77,6 @@ export class Tweet extends Component {
       parent,
     } = tweet;
 
-    if (!tweet) <p>This tweet does not exist</p>;
     return (
       <div className="tweet">
         <img src={avatar} alt={`Avatar of ${name}`} className="avatar" />
@@ -115,23 +119,10 @@ export class Tweet extends Component {
  * @param {string} ownProps.id
  * @return {tweetStateProps}
  */
-const mapStateToProps = ({authedUser, tweets, users}, {id}) => {
-  /**
-   * @const {tweet} tweet
-   */
-  const tweet = tweets[id];
-
-  /**
-   * @const {tweet} parentTweet - The tweet being replied to
-   */
-  const parentTweet = tweet && tweets[tweet.replyingTo];
-
-  return {
-    authedUser,
-    tweet:
-      tweet && formatTweet(tweet, users[tweet.author], authedUser, parentTweet),
-  };
-};
+const mapStateToProps = ({authedUser, tweets, users}, {id}) => ({
+  authedUser,
+  tweet: getFormattedTweet(authedUser, id, tweets, users),
+});
 
 // Tweet export
 export default connect(mapStateToProps, {handleToggleTweet})(Tweet);
